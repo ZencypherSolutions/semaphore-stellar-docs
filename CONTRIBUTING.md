@@ -8,13 +8,15 @@ To suggest improvements or new research, you can create an issue by following th
 
 1. Check existing issues: Before creating a new issue, ensure that there isn't a similar one in the current list: [Issues](https://github.com/ZencypherSolutions/semaphore-stellar-docs/issues).
 2. To create a new issue, click here: [Create a new Issue](https://github.com/ZencypherSolutions/semaphore-stellar-docs/issues/new).
-3. Use an appropriate prefix in the title: To keep the repository organized, use the following prefixes:
-   - docs: for changes directly related to documentation.
-   - research: for topics that require research.
+3. Use an appropriate prefix in the title: Since this is a documentation and research repository, please use the following prefixes to organize contributions effectively:
+   - docs: for issues related to documentation changes.
+   - research: for issues that suggest or request research topics.
 
-   Example: `docs: update installation guide`
+   Example: 
+   - `docs: update README file`
+   - `research: add resources about the Stellar ecosystem`
    
-4. Clearly describe the improvement or research and include all relevant information or context.
+4. Clearly describe the improvement or research: Provide all relevant information or context to help others understand the issue.
 
 ## Apply to an issue
 
@@ -40,7 +42,7 @@ For each contribution, create a new branch with a meaningful name that follows a
 
 Example:
    ```bash
-   git checkout -b docs-update-guide
+   git checkout -b docs-update-readme-file
    ```
 
 ## Make Necessary Changes
@@ -65,7 +67,7 @@ Commit with a meaningful message that clearly describes the change:
    ```
 Example:
    ```bash
-   git commit -m "docs: update installation guide"
+   git commit -m "docs: update README file"
    ```
 
 ## Push Your Changes
