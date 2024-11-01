@@ -25,7 +25,7 @@ We have an active community ready to help! For additional support or to engage w
 ### Semaphore Stellar
 - If you're interested in discussing with Semaphore Stellar maintainers directly
 - Join: https://t.me/+-9623JNgGjEyNzI5
-Note: Semaphore Community group is not directly affiliated with the Semaphore Core team, it serves as an excellent resource for direct support and community engagement.
+Note: Semaphore Stellar group is not directly affiliated with the Semaphore Core team, it serves as an excellent resource for direct support and community engagement.
 
 ### Semaphore Community
 - For protocol-specific questions and interactions with core developers
