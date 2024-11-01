@@ -61,14 +61,32 @@ Add the changes to the staging area:
    ```bash
    git add .
    ```
-Commit with a meaningful message that clearly describes the change:
+Commit with a meaningful message that clearly describes the change. Please use the conventional commit format to improve readability and organization of commit history. You can refer to the guidelines here: [Conventional Commits](https://www.conventionalcommits.org/).
    ```bash
-   git commit -m "docs: description"
+   git commit -m "type(scope): description"
    ```
-Example:
+Examples:
+- docs: for documentation changes:
    ```bash
-   git commit -m "docs: update README file"
+   git commit -m "docs: update README file with installation instructions"
    ```
+- feat: for adding a new feature:
+   ```bash
+   git commit -m "feat(user-auth): add login functionality"
+   ```
+- fix: for fixing a bug:
+   ```bash
+   git commit -m "fix(api): correct endpoint URL in API documentation"
+   ```
+- refactor: for code changes that neither fix a bug nor add a feature:
+   ```bash
+   git commit -m "refactor(utils): simplify data parsing function"
+   ```
+- test: for adding or updating tests:
+   ```bash
+   git commit -m "test(auth): add unit tests for login functionality"
+   ```
+
 
 ## Push Your Changes
 
