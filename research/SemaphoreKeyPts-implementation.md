@@ -25,8 +25,6 @@ The SemaphoreVerifierKeyPts contract is a crucial component of the Semaphore zer
 
 ## Installation Guide & Setup
 
-### Project Setup
-
 ```bash
 # Create project directory
 mkdir semaphore-project
