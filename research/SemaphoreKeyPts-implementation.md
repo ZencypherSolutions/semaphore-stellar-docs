@@ -25,18 +25,6 @@ The SemaphoreVerifierKeyPts contract is a crucial component of the Semaphore zer
 
 ## Installation Guide & Setup
 
-```bash
-# Create project directory
-mkdir semaphore-project
-cd semaphore-project
-
-# Initialize new Rust project
-cargo new semaphore-contract --lib
-cd semaphore-contract
-```
-
-### Required Software
-
 1. **Rust Toolchain**
 
    ```bash
