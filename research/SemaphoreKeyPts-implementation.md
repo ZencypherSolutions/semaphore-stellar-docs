@@ -1,17 +1,3 @@
-# SemaphoreVerifierKeyPts Soroban Implementation - Complete Documentation
-
-## Table of Contents
-
-1. [Introduction](#introduction)
-2. [Prerequisites & Setup](#prerequisites--setup)
-3. [Installation Guide](#installation-guide)
-4. [Contract Implementation Details](#contract-implementation-details)
-5. [Usage Guide](#usage-guide)
-6. [Testing](#testing)
-7. [Troubleshooting](#troubleshooting)
-
-## Introduction
-
 ### What is SemaphoreVerifierKeyPts?
 
 The SemaphoreVerifierKeyPts contract is a crucial component of the Semaphore zero-knowledge proof system, responsible for managing verification key points. This Soroban implementation ports the original Solidity contract to the Stellar blockchain ecosystem.
@@ -23,79 +9,7 @@ The SemaphoreVerifierKeyPts contract is a crucial component of the Semaphore zer
 - Data structure validation
 - Robust error handling
 
-## Installation Guide & Setup
-
-1. **Rust Toolchain**
-
-   ```bash
-   # Install Rust
-   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-   # Add Wasm target
-   rustup target add wasm32-unknown-unknown
-
-   # Verify installation
-   rustc --version
-   cargo --version
-   ```
-
-2. **Soroban CLI**
-
-   ```bash
-   # Install Soroban CLI
-   cargo install soroban-cli --version 20.5.0
-
-   # Verify installation
-   soroban --version
-   ```
-
-3. **Development Tools**
-
-   ```bash
-   # Ubuntu/Debian
-   sudo apt-get update
-   sudo apt-get install build-essential git pkg-config libssl-dev
-
-   # MacOS
-   brew install openssl pkg-config
-   ```
-
-### Dependencies Configuration
-
-Create/update `Cargo.toml`:
-
-```toml
-[package]
-name = "semaphore_contract"
-version = "0.1.0"
-edition = "2021"
-
-[lib]
-crate-type = ["cdylib"]
-
-[dependencies]
-soroban-sdk = "20.5.0"
-
-[dev-dependencies]
-soroban-sdk = { version = "20.5.0", features = ["testutils"] }
-
-[features]
-testutils = ["soroban-sdk/testutils"]
-
-[profile.release]
-opt-level = "z"
-overflow-checks = true
-debug = 0
-strip = "symbols"
-debug-assertions = false
-panic = "abort"
-codegen-units = 1
-lto = true
-```
-
 ```rust
-// Indicates that this is a no_std crate, meaning it doesn't depend on the Rust standard library
-// This is required for Soroban contract development
 #![no_std]
 
 // Import required dependencies from soroban_sdk
@@ -110,24 +24,13 @@ use soroban_sdk::{
     contract, contracterror, contractimpl, symbol_short, BytesN, Env, Vec
 };
 
-// Constants used throughout the contract
-// POINT_SIZE: Size of each verification key point in bytes
-// This is set to 32 bytes to accommodate the full point data
+/// Core constants for verification key points management
+/// POINT_SIZE: Size of each verification point in bytes
+/// SET_SIZE: Number of points in each verification set
 const POINT_SIZE: usize = 32;
-
-// SET_SIZE: Number of points in each set
-// This defines how many points are processed together
 const SET_SIZE: u32 = 8;
 
-// Contract Error Definition
-// #[contracterror] - Marks this enum as a contract error type
-// Various derive macros to implement necessary traits:
-// - Copy: Allow the type to be copied
-// - Clone: Allow the type to be cloned
-// - Debug: Enable debug formatting
-// - Eq, PartialEq: Enable equality comparisons
-// - PartialOrd, Ord: Enable ordering comparisons
-// #[repr(u32)] - Specifies that the enum should be represented as u32
+/// Contract error for verification key points validation
 #[contracterror]
 #[derive(Copy, Clone, Debug, Eq, PartialEq, PartialOrd, Ord)]
 #[repr(u32)]
@@ -137,32 +40,20 @@ pub enum Error {
     VKPtBytesMaxDepthInvariantViolated = 1,
 }
 
-// Contract Definition
-// #[contract] - Marks this struct as a Soroban contract
 #[contract]
 pub struct SemaphoreVerifierKeyPts;
 
-// Contract Implementation
-// #[contractimpl] - Implements the contract functions
 #[contractimpl]
 impl SemaphoreVerifierKeyPts {
-    /// Initialize the contract with verification key points
-    ///
-    /// # Parameters
-    /// * `env: Env` - Soroban environment object
-    ///
-    /// # Function Flow
-    /// 1. Creates a new vector to store points
-    /// 2. Defines sample data points
-    /// 3. Stores points in contract storage
+    /// Initializes the verification key points storage.
+    /// Stores a set of verification points that will be used for zero-knowledge proof verification.
+    /// These points are crucial for the Semaphore protocol's verification process.
     pub fn initialize(env: Env) {
         // Create new vector in the Soroban environment
         let mut points = Vec::new(&env);
 
-        // Define sample verification key points
-        // Each point is represented as a 32-bit integer
-        // The _i32 suffix explicitly defines the type
-        // The u32 as i32 conversion is used where needed
+        // Verification key points taken from the original Semaphore implementation
+        // These points are used to verify zero-knowledge proofs in the protocol
         let sample_data = [
              // First point set - each value represents a verification key point
              0x289691d7_i32,    // Point 1
@@ -179,7 +70,7 @@ impl SemaphoreVerifierKeyPts {
         // iter() - Creates an iterator over references
         // points.push_back - Adds element to end of vector
         for value in sample_data.iter() {
-            points.push_back(*value);  // Dereference to get the actual value
+            points.push_back(*value);
         }
 
         // Store the points in contract storage
@@ -188,17 +79,11 @@ impl SemaphoreVerifierKeyPts {
         env.storage().instance().set(&symbol_short!("POINTS"), &points);
     }
 
-    /// Retrieve points for a specific Merkle tree depth
-    ///
-    /// # Parameters
-    /// * `env: Env` - Soroban environment object
-    /// * `merkle_tree_depth: i32` - The depth in the Merkle tree to retrieve points for
-    ///
-    /// # Returns
-    /// * `Vec<BytesN<32>>` - Vector of 32-byte points
+    / /// Retrieves verification points for a specific Merkle tree depth.
+    /// This is used during the zero-knowledge proof verification process
+    /// to validate group membership claims.
     pub fn get_pts(env: Env, merkle_tree_depth: i32) -> Vec<BytesN<32>> {
         // Retrieve stored points from contract storage
-        // unwrap_or_else creates new vector if none exists
         let stored_points: Vec<i32> = env.storage().instance()
             .get(&symbol_short!("POINTS"))
             .unwrap_or_else(|| Vec::new(&env));
@@ -207,13 +92,12 @@ impl SemaphoreVerifierKeyPts {
         let mut result = Vec::new(&env);
 
         // Calculate starting index based on Merkle tree depth
-        // Subtracts 1 from depth and multiplies by SET_SIZE
         let start_idx = ((merkle_tree_depth - 1) * SET_SIZE as i32) as u32;
 
         // Calculate ending index, ensuring we don't exceed stored points
         let end_idx = (start_idx + SET_SIZE).min(stored_points.len());
 
-        // Process points within calculated range
+        // Convert stored integers to the byte format required for verification
         for i in start_idx..end_idx {
             if let Some(value) = stored_points.get(i) {
                 // Create byte array for point data
@@ -231,18 +115,8 @@ impl SemaphoreVerifierKeyPts {
 ```
 
 ```rust
-    /// Validate the verification key points data structure
-    ///
-    /// # Parameters
-    /// * `env: Env` - Soroban environment object
-    /// * `max_depth: i32` - Maximum depth to validate against
-    ///
-    /// # Returns
-    /// * `Result<(), Error>` - Ok(()) if valid, Err with specific error if invalid
-    ///
-    /// # Error Cases
-    /// Returns VKPtBytesMaxDepthInvariantViolated if:
-    /// - The number of stored points doesn't match expected length
+    /// Validates the verification key points structure.
+    /// Ensures that the stored points match the expected format for the Semaphore protocol.
     pub fn check_invariant(env: Env, max_depth: i32) -> Result<(), Error> {
         // Retrieve stored points from contract storage
         // If no points exist, creates new empty vector
@@ -250,12 +124,9 @@ impl SemaphoreVerifierKeyPts {
             .get(&symbol_short!("POINTS"))
             .unwrap_or_else(|| Vec::new(&env));
 
-        // Calculate expected length based on max_depth and SET_SIZE
-        // Cast to u32 to match storage length type
         let expected_len = (max_depth * SET_SIZE as i32) as u32;
 
         // Verify that stored points length matches expected length
-        // If not, return error indicating invariant violation
         if stored_points.len() != expected_len {
             return Err(Error::VKPtBytesMaxDepthInvariantViolated);
         }
@@ -266,23 +137,18 @@ impl SemaphoreVerifierKeyPts {
 }
 
 /// Test module for the SemaphoreVerifierKeyPts contract
-/// #[cfg(test)] ensures these tests only compile when running tests
 #[cfg(test)]
 mod test {
     // Import all items from parent module
     use super::*;
 
-    /// Test initialization of contract
-    /// Verifies that:
-    /// 1. Contract can be initialized
-    /// 2. Points are properly stored
+    /// Verifies correct initialization of verification key points
     #[test]
     fn test_initialize() {
         // Create new test environment
         let env = Env::default();
 
         // Register contract in test environment
-        // None indicates no specific ID is required
         let contract_id = env.register_contract(None, SemaphoreVerifierKeyPts);
 
         // Create client for interacting with contract
@@ -295,14 +161,10 @@ mod test {
         let points = client.get_pts(&1);
 
         // Assert points were properly stored
-        // Points vector should not be empty after initialization
         assert!(!points.is_empty(), "Points should be initialized");
     }
 
-    /// Test point retrieval functionality
-    /// Verifies that:
-    /// 1. Points can be retrieved
-    /// 2. Correct number of points are returned
+    /// Tests retrieval of verification points for proof verification
     #[test]
     fn test_get_pts() {
         // Create test environment and client
@@ -316,18 +178,13 @@ mod test {
         // Retrieve points for depth 1
         let points = client.get_pts(&1);
 
-        // Verify retrieved points
-        // 1. Check that points were returned
+        // Check that points were returned
         assert!(!points.is_empty(), "Should return non-empty points array");
-        // 2. Verify exact number of points (should match SET_SIZE)
+        // Verify exact number of points (should match SET_SIZE)
         assert_eq!(points.len(), 8, "Should return exactly 8 points");
     }
 
-    /// Test invariant checking functionality
-    /// Verifies that:
-    /// 1. Valid configurations pass
-    /// 2. Invalid configurations fail
-    /// 3. Edge cases are handled properly
+    /// Validates point structure requirements for Semaphore protocol
     #[test]
     fn test_check_invariant() {
         // Setup test environment and contract
@@ -338,18 +195,15 @@ mod test {
         // Initialize contract
         client.initialize();
 
-        // Test 1: Success case with correct number of points (depth = 1)
         // Should return Ok(Ok(())) for valid configuration
         assert_eq!(client.try_check_invariant(&1), Ok(Ok(())));
 
-        // Test 2: Failure case with incorrect depth (depth = 2)
         // Should return Err with VKPtBytesMaxDepthInvariantViolated
         assert_eq!(
             client.try_check_invariant(&2),
             Err(Ok(Error::VKPtBytesMaxDepthInvariantViolated))
         );
 
-        // Test 3: Edge case with zero depth
         // Should return Err with VKPtBytesMaxDepthInvariantViolated
         assert_eq!(
             client.try_check_invariant(&0),
@@ -358,10 +212,7 @@ mod test {
     }
 
     /// Test panic behavior for invariant violations
-    /// #[should_panic] attribute indicates this test should panic
-    /// Verifies that:
-    /// 1. Contract properly panics on invalid configurations
-    /// 2. Correct error message is provided
+    /// Verifies error handling for invalid verification point configurations
     #[test]
     #[should_panic(expected = "Error(Contract, #1)")]
     fn test_check_invariant_panic() {
@@ -374,63 +225,10 @@ mod test {
         client.initialize();
 
         // Attempt to check invariant with invalid depth
-        // This should panic with the specified error message
         client.check_invariant(&2);
     }
 }
 ```
-
-### Running Tests
-
-```bash
-# Run all tests
-cargo test
-
-# Run specific test
-cargo test test_initialize
-
-# Run tests with output
-cargo test -- --nocapture
-```
-
-## Deployment Guide
-
-### Build Process
-
-```bash
-# Debug build
-cargo build
-
-# Release build
-cargo build --target wasm32-unknown-unknown --release
-```
-
-## Troubleshooting
-
-### Common Issues and Solutions
-
-1. **Build Failures**
-
-   ```bash
-   # Issue: wasm32-unknown-unknown target missing
-   rustup target add wasm32-unknown-unknown
-
-   # Issue: soroban-cli not found
-   cargo install soroban-cli
-   ```
-
-2. **Runtime Errors**
-
-   - Issue: Storage errors
-     - Solution: Check environment initialization
-   - Issue: Point conversion errors
-     - Solution: Verify data format and byte conversion
-
-3. **Test Failures**
-   - Issue: Assertion failures
-     - Solution: Check expected vs actual values
-   - Issue: Panic messages
-     - Solution: Verify error conditions
 
 ### References
 
