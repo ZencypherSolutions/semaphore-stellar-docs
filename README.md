@@ -20,7 +20,7 @@ For research-related content, we maintain a dedicated `research` folder. This fo
 
 We have another project to simplify your journey into integrating Semaphore's zero-knowledge privacy layer within the Stellar blockchain that is called **Semaphore Stellar Boilerplate** here you can find [boilerplate repository](https://github.com/ZencypherSolutions/semaphore-stellar-boilerplate) where you can find a starter code, resources to help you start, the design architecture, and for testing test suites that help in the implementation.
 
-And this one [SDK Semaphore Stellar repository](https://github.com/ZencypherSolutions/semaphore-stellar-sdk) is the SDK project for Stellar protocol. 
+And this one [SDK Semaphore Stellar repository](https://github.com/ZencypherSolutions/semaphore-stellar-sdk) is the SDK project for Stellar protocol.
 
 ## Community Support
 
