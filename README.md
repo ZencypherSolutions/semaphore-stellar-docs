@@ -18,9 +18,9 @@ The repository is structured to make finding information as straightforward as p
 
 For research-related content, we maintain a dedicated `research` folder. This folder contains all research files and related materials. When contributing new research, please ensure your files are added to this folder to maintain our organizational structure.
 
-We have another project to simplify your journey into integrating Semaphore's zero-knowledge privacy layer within the Stellar blockchain that is called **Semaphore Stellar Boilerplate** here you can find [Boilerplate repository](https://github.com/ZencypherSolutions/semaphore-stellar-boilerplate) where you can find a starter code, resourses to help you start, the design architecture, and for testing test suites that help review the implementation.
+We have another project to simplify your journey into integrating Semaphore's zero-knowledge privacy layer within the Stellar blockchain that is called **Semaphore Stellar Boilerplate** here you can find [boilerplate repository](https://github.com/ZencypherSolutions/semaphore-stellar-boilerplate) where you can find a starter code, resources to help you start, the design architecture, and for testing test suites that help in the implementation.
 
-A [SDK repository](https://github.com/ZencypherSolutions/semaphore-stellar-sdk)
+This is the SDK project for [SDK Semaphore Stellar repository](https://github.com/ZencypherSolutions/semaphore-stellar-sdk)
 
 ## Community Support
 
