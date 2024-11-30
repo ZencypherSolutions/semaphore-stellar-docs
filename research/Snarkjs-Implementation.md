@@ -11,7 +11,8 @@ npm install -g snarkj
 You will also need **Circom**, which is the circuit compiler. Follow the instructions in its official repository to install it. [How to install Circom](https://docs.circom.io/getting-started/installation/#installing-dependencies)
 
 ## **2. Powers of Tau Ceremony Configuration**
-
+Having the .circom circuit and compiling it with `circom circuit.circom --r1cs --wasm --sym`
+This will generate several files, including `circuit.wasm` and `circuit.r1cs`. (You can use this test files [Files](https://github.com/iden3/snarkjs/tree/master/test/groth16))
 
 ### **Start the Powers of Tau Ceremony**
 
