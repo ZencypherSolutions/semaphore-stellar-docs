@@ -12,18 +12,20 @@ You will also need **Circom**, which is the circuit compiler. Follow the instruc
 
 ## **2. Powers of Tau Ceremony Configuration**
 
+
 ### **Start the Powers of Tau Ceremony**
 
 Run the following command to begin the ceremony:
 
 ```bash
-snarkjs powersoftau new bn128 14 pot14_0000.ptau -v
+snarkjs powersoftau new bls12-381 14 pot14_0000.ptau -v
 ```
 
-This command establishes a ceremony using the bn128 curve and allows a maximum of 16,384 constraints.
+This command establishes a ceremony using the bls12-381 curve and allows a maximum of 16,384 constraints.
 -   **`powersoftau`**: This is the first setup phase to generate a `.ptau` (Powers of Tau) file, which contains the necessary bases for building zk-SNARK circuits.
     
--   **`bn128`**: Specifies the BN128 curve (equivalent to BN254), which is the pairable curve used by Semaphore and zk-SNARK. 
+-   **`bls12-381`**: Specifies the BLS12-381 pairing-friendly elliptic curve.
+This curve provides higher security and a larger field size compared to BN128 (BN254), making it more suitable for long-term applications.
     
 -   **`14`**: This is the number of powers (Power of Tau) that defines the maximum circuit size in terms of constraints. The value `14` corresponds to circuits with up to 2^{14} = (16,384) constraints, which is more than sufficient for a Semaphore circuit.
     
@@ -66,7 +68,8 @@ This command will generate a final `ptau` file that will be used to generate the
 Use the following command to generate the keys:
 
 ```bash
-snarkjs groth16 setup circuit.json pot14_final.ptau circuit_0000.zkey
+snarkjs groth16 setup circuit.r1cs pot14_final.ptau circuit_0000.zkey
+snarkjs zkey export verificationkey circuit_0000.zkey verification_key.json
 ```
 
 This creates a `zkey` file containing the keys necessary to prove the circuit.
