@@ -12,15 +12,6 @@ You will also need **Circom**, which is the circuit compiler. Follow the instruc
 
 ## **2. Powers of Tau Ceremony Configuration**
 
-### **Initialize Project**
-
-Create a new directory for your project:
-
-```bash
-mkdir snarkjs_project
-cd snarkjs_project
-```
-
 ### **Start the Powers of Tau Ceremony**
 
 Run the following command to begin the ceremony:
