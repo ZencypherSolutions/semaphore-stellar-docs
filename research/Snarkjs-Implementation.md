@@ -26,7 +26,7 @@ This command establishes a ceremony using the bls12-381 curve and allows a maxim
 -   **`powersoftau`**: This is the first setup phase to generate a `.ptau` (Powers of Tau) file, which contains the necessary bases for building zk-SNARK circuits.
     
 -   **`bls12-381`**: Specifies the BLS12-381 pairing-friendly elliptic curve.
-This curve provides higher security and a larger field size compared to BN128 (BN254), making it more suitable for long-term applications.
+This curve provides higher security and a larger field size compared to BN128 (BN254), making it more suitable for long-term applications. For more info about read this [BLS12-381](https://hackmd.io/@benjaminion/bls12-381)
     
 -   **`14`**: This is the number of powers (Power of Tau) that defines the maximum circuit size in terms of constraints. The value `14` corresponds to circuits with up to 2^{14} = (16,384) constraints, which is more than sufficient for a Semaphore circuit.
     
@@ -166,3 +166,4 @@ callVerifyProof(proof, publicSignals);
 ```
 
 For testing, you can also directly use the generated `proof.json` and `public.json` files by importing them accordingly.
+
