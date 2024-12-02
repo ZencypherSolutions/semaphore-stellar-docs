@@ -4,7 +4,7 @@ The Semaphore circuit is a key part of the Semaphore protocol, providing the cry
 
 Semaphore uses components like **identity generation**, **Merkle proof verification**, and **nullifier creation** to ensure privacy and security in its transactions. However, adapting these features to Stellar involves addressing several compatibility and optimization challenges.  
 
-One of the main hurdles is that Semaphore relies on the BLS12-381 curve for cryptography, which doesn’t align directly with Stellar’s structure. Stellar’s unique ledger system and transaction model also add complexity to this integration.  
+One of the main hurdles is that the current Semaphore implementation uses the BN254 curve for cryptography, while Stellar uses the BLS12-381 curve. Additionally, Stellar’s unique ledger system and transaction model add complexity to this integration.
 
 ---
 
