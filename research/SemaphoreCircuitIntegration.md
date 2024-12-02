@@ -11,15 +11,18 @@ One of the main hurdles is that Semaphore relies on the BLS12-381 curve for cryp
 ### Challenges and Constraints  
 
 1. **Curve Compatibility**  
-   Semaphore uses the BLS12-381 curve, but Stellar may not fully support this cryptographic setup. This mismatch needs to be addressed for seamless integration.  
+   With protocol 22, Stellar will support the BLS12-381 curve operations which is different from BN254 curve which is used by most EVM chains and on which the original Semaphore circuit utilizes. This mismatch needs to be addressed for seamless integration especially if the current semaphore circuit implementation on EVM must be replicated.  
 
-2. **Stellar's Structure**  
+2. **Adaptation Overhead**  
+   From current research, the semaphore circuit can be reworked to create a fork of the circuit that is compatible with the BLS12-381 curve. This will require significant effort. Most importantly, it will require the generation of new verification keys. Also, the current Poseidon Hash function needs to be adapted for this purpose, this is possible/available from current research.
+
+3. **Stellar's Structure**  
    Stellar's ledger design and simplified transaction model make it difficult to implement complex cryptographic operations, like those in the Semaphore circuit.  
 
-3. **Circuit Performance**  
-   Stellar processes transactions quickly and efficiently. Adapting the Semaphore circuit to ensure fast proof generation and verification is crucial for maintaining this performance.  
+4. **Circuit Performance**  
+   Stellar processes transactions quickly and efficiently. Adapting the Semaphore circuit to ensure fast proof generation and verification is crucial for maintaining this performance. Also, if the current challenge of curve compatibility resolution is in adapting the circuit to the BLS12-381 curve, this may have performance implications.
 
-4. **Integration with Stellar Tools**  
+5. **Integration with Stellar Tools**  
    Stellar’s current tools and capabilities, including its limited smart contract functionality, may require modifications or off-chain solutions to accommodate Semaphore.  
 
 ---
@@ -27,7 +30,7 @@ One of the main hurdles is that Semaphore relies on the BLS12-381 curve for cryp
 ### Possible Solutions  
 
 - **Alternative Curves**  
-   Research elliptic curves that Stellar supports and explore their use in place of BLS12-381.  
+   Adapt the Semaphore circuit to use the BLS12-381 curve, aligning it with Stellar’s cryptographic requirements. Also, explore other curve options that may offer better compatibility.
 
 - **Protocol Upgrades**  
    Stay informed about Stellar’s upcoming updates, such as `Protocol 22`, which could introduce features supporting advanced cryptography.  
